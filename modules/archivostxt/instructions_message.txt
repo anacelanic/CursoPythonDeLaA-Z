@@ -1,0 +1,16 @@
+Te brindamos las instrucciones de Apylabrados!
+Normas del juego:
+ - En este juego sólo juega un jugador. El objetivo es conseguir poner el número máximo de puntos.
+ - El tablero de juego consta de 15 filas por 15 columnas.
+ - El tablero tiene un total de 225 casillas que pueden contener una letra o estar vacías. Al empezar el juego, el tablero debe estar vacío.
+ - La casilla central del tablero es especial, pues es la casilla donde debe situarse la primera palabra. Es decir, al menos una de las fichas que conformen la primera palabra debe situarse en la casilla central.
+ - Las fichas ya tienen su puntaje predeterminado.
+ - Cuando empieza el juego, se deben seleccionar 7 fichas de manera aleatoria, teniendo en cuenta que el total de fichas es 100.
+- En cada turno, se debe mostrar al usuario las fichas de las que dispone para poder formar una nueva palabra y colocarla en el tablero. Como se dijo anteriormente, la primera palabra debe tener al menos una ficha sobre la casilla central.
+ - Para poder colocar una palabra nueva en el tablero, el usuario deberá indicar la fila y la columna donde colorcar la primera ficha de la palabra y la dirección (vertical u horizontal) en la que se colocará la palabra. La casilla superior izquierda es la casilla (0, 0); la casilla inferior derecha es la (14, 14); la casilla central es la casilla (7, 7).
+Tras cada palabra colocada, se deben proporcionar nuevas fichas al jugador, tantas como haya utilizado para que vuelva a tener un total de 7 fichas disponibles.
+ - Tras cada palabra colocada, se debe mostrar la puntuación del jugador. Añadir tras cada jugada la puntuación de las nuevas fichas colocadas sobre el tablero a la puntuación del jugador.
+ - El usuario puede solicitar la información sobre la puntuación de cada ficha.
+ - El usuario puede solicitar ayuda al programa para comprobar si exite alguna colocación para la palabra dada. El programa devolverá todas las posibles posiciones para dicha palabra sobre el tablero, teniendo en cuenta la configuración en la que se encuentre.
+ - El usuario puede solicitar ayuda al programa para comprobar si puede formar alguna palabra con las fichas de las cuales dispone. El programa devolverá todas las posibles palabras que se puedan formar con las 7 letras del jugador y las letras que haya sobre el tablero haciendo uso del diccionario
+ 

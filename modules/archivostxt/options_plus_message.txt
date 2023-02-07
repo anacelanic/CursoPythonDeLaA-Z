@@ -1,0 +1,8 @@
+Para continuar, introduce ENTER
+Para cambiar la palabra, introdce ENTERWORD
+Para consultar tus fichas, introduce MYPAWNS
+Para consultar tus puntos actuales, introduce MYSCORE
+Para consultar los puntos de cada ficha, introduce PAWNSPOINTS
+Para obtener ayuda con las posibles palabras a formar con tus fichas, introduce HELPWORD
+Para obtener ayuda con las posibles posiciones para la palabra, introduce HELPPOS
+Para salir del juego introduce, QUITGAME

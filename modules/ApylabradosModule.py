@@ -1,3 +1,240 @@
+def queComienceApylabrados():
+    """
+    Inicializa las variables para comenzar una nueva partida
+    """
+    #Creamos las variables globales booleanas end, show_help y show_help_plus
+    global end
+    end = False
+    global show_help
+    show_help = True
+    global show_help_plus
+    show_help_plus = True
+    
+    #Creamos la bolsa de fichas del juego
+    global bag_of_pawns
+    bag_of_pawns = Pawns()
+    bag_of_pawns.createBag()
+
+    #Creamos las fichas del jugador
+    global player_pawns
+    player_pawns = Pawns()
+
+    #Creamos el tablero de juego
+    global board
+    board = Board()
+    Board.score = 0
+
+    #Mensaje de bienvenida e instrucciones
+    welcome()
+    instructions()
+
+def welcome():
+    """
+    Muestra el mensaje de bienvenida una vez que comienza el juego
+    """
+    filepath = '/content/drive/MyDrive/CursoPythonDeLaA-Z/modules/archivostxt/welcome_message.txt'
+    with open(filepath, "r") as f:
+        print(f.read())
+        
+def instructions():
+    """
+    Muestra las instrucciones de la partida de Apylabrados
+    """
+    filepath = '/content/drive/MyDrive/CursoPythonDeLaA-Z/modules/archivostxt/instructions_message.txt'
+    with open(filepath, "r") as f:
+        print(f.read())
+        
+def deal7Pawns():
+    """
+    Reparte fichas al jugador hasta completar las 7 de su mano actual
+    """
+    while(player_pawns.getTotalPawns() < 7):
+        player_pawns.addPawn(bag_of_pawns.takeRandomPawn())
+    print("Estas son tus fichas:")
+    player_pawns.showPawns()
+
+def verOpciones():
+    """
+    Muestra las opciones en caso de que todavía no haya palabra introducida
+    """
+    global show_help
+    filepath = '/content/drive/MyDrive/CursoPythonDeLaA-Z/modules/archivostxt/options_message.txt'
+    print("\n¿Qué deseas hacer? {}".format("" if show_help else "(Introduce SHOWHELP para ver las diferentes opciones)"))
+    if show_help:
+        with open(filepath, "r") as f:
+            print(f.read())
+        show_help = False
+    ans = input().upper()
+    if ans == "SHOWHELP":
+        show_help = True
+        showOptions()
+    elif ans == "ENTERWORD":
+        introduceNewWord()
+    elif ans == "MYPAWNS":
+        print("Estas son tus fichas:")
+        player_pawns.showPawns()
+        verOpciones()
+    elif ans == "MYSCORE":
+        print("Puntos: {}".format(Board.score))
+        verOpciones()
+    elif ans == "PAWNSPOINTS":
+        Pawns.showPawnsPoints()
+        verOpciones()
+    elif ans == "HELPWORD":
+        helpWithWords()
+        verOpciones()
+    elif ans == "QUITGAME":
+        terminarApylabrados()
+    else:
+        verOpciones()
+
+def showOptionsPlus():
+    """
+    Muestra las opciones en caso de que haya palabra introducida para colocar en el tablero
+    """
+    global show_help_plus
+    file_path = "/content/drive/MyDrive/python-basico/proyecto final/scripts/options_plus_message.txt"
+    print("\n¿Qué deseas hacer? {}".format("" if show_help_plus else "(Introduce SHOWHELP para ver las diferentes opciones)"))
+    if show_help_plus:
+        with open(filepath, "r") as f:
+            print(f.read())
+        show_help_plus = False
+    ans = input().upper()
+    if ans == "SHOWHELP":
+        show_help_plus = True
+        showOptionsPlus()
+    elif ans == "ENTERPOSITION":
+        introduceCoordinatesAndDirection()
+    elif ans == "ENTERWORD":
+        introduceNewWord()
+    elif ans == "MYPAWNS":
+        print("Estas son tus fichas:")
+        player_pawns.showPawns()
+        showOptionsPlus()
+    elif ans == "MYSCORE":
+        print("Puntos: {}".format(Board.score))
+        showOptionsPlus()
+    elif ans == "PAWNSPOINTS":
+        Pawns.showPawnsPoints()
+        showOptionsPlus()
+    elif ans == "HELPWORD":
+        helpWithWords()
+        showOptionsPlus()
+    elif ans == "HELPPOS":
+        helpWithPosition()
+        showOptionsPlus()
+    elif ans == "QUITGAME":
+        endGame()
+    else:
+        showOptionsPlus()
+
+def helpWithWords():
+    """
+    Muestra las posibles palabras que se pueden formar con las fichas disponibles del jugador
+    y las que ya hay colocadas en el tablero
+    """
+    print("Estas son las posibles palabras a formar:")
+    if board.totalWords == 0:
+        Dictionary.showWords(player_pawns)
+    else:
+        board_letters = []
+        for i in range(15):
+            for j in range(15):
+                if board.board[i][j] != " " and board.board[i][j] not in board_letters:
+                    board_letters.append(board.board[i][j])
+                    Dictionary.showWordsPlus(player_pawns, board.board[i][j])
+                    
+                    
+def helpWithPosition():
+    """
+    Muestra las posibles colocaciones en el tablero de la palabra introducida
+    """
+    print("Estas son las posibles colocaciones")
+    board.showWordPlacement(player_pawns, new_word)
+
+
+def introduceNewWord():
+    """
+    Permite que el usuario introduzca una nueva palabra por consola
+    y comprueba que existe en el diccionario, y que puede formarse con las 
+    fichas de que dispone el jugador y las ubicadas sobre el tablero. 
+    """
+    print("Introduce tu palabra:")
+    global new_word
+    new_word = Word.readWord()
+    new_word_ft = new_word.getFrequency()
+    player_pawns_ft = player_pawns.getFrequency()
+    isInDictionary = Dictionary.validateWord(new_word)
+    
+    if board.totalWords == 0:
+        newWordIsSubset = FrequencyTable.isSubset(new_word_ft, player_pawns_ft)
+    else:
+        board_letters = []
+        forcedBreak = False
+    
+        for i in range(15):
+            if forcedBreak:
+                break
+            for j in range(15):
+                if board.board[i][j] != " " and board.board[i][j] not in board_letters:
+                    board_letters.append(board.board[i][j])
+                    player_pawns_plus = player_pawns_ft
+                    player_pawns_plus.update(board.board[i][j])
+                    newWordIsSubset = FrequencyTable.isSubset(new_word_ft, player_pawns_plus)
+                    player_pawns_plus.delete(board.board[i][j])
+                    
+                    if newWordIsSubset:
+                        forcedBreak = True
+                        break
+    
+    if not isInDictionary or not newWordIsSubset:
+        if not newWordIsSubset:
+            print("No puedes formar esa palabra con tus fichas")
+        verOpciones()
+    else:
+        showOptionsPlus()
+
+
+def introduceCoordinatesAndDirection():
+    """
+    Permite al jugador introducir por consola la posición y orientación de una palabra.
+    Comprueba si la palabra se puede colocar en dicha ubicación.
+    """
+    print("Introduce coordenada de la fila: ", end = " ")
+    x = int(input())
+    print("Introduce coordenada de la columna: ", end = " ")
+    y = int(input())
+    print("Introduce dirección: ", end = " ")
+    direction = input().upper()
+    
+    if direction != "V" and direction != "H":
+        print("Recuerda: solamente hay dos posibles direcciones para colocar las palabras: V (vertical) y H (horizontal)")
+        showOptionsPlus()
+
+    possible, message = board.isPossible(new_word, x, y, direction)
+    if not possible:
+        print(message)
+        showOptionsPlus()
+    else:
+        needed_pawns = board.getPawns(new_word, x, y, direction)
+        if FrequencyTable.isSubset(needed_pawns.getFrequency(), player_pawns.getFrequency()):
+            board.placeWord(player_pawns, new_word, x, y, direction)
+            board.showBoard()
+            print("\nPuntos: {}\n".format(Board.score))
+        else:
+            print("Las fichas de que dispones no son suficientes")
+            showOptionsPlus()
+
+
+def terminarApylabrados():
+    """
+    Finaliza la partida actual
+    """
+    print("Fin del juego")
+    global end
+    end = True
+
+
 class Pawns():
     
     points = {"A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1,

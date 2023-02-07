@@ -1,0 +1,6 @@
+Para continuar, introduce ENTERWORD
+Para consultar tus fichas, introduce MYPAWNS
+Para consultar tus puntos actuales, introduce MYSCORE
+Para consultar los puntos de cada ficha, introduce PAWNSPOINTS
+Para obtener ayuda con las posibles palabras a formar con tus fichas, introduce HELPWORD
+Para salir del juego introduce, QUITGAME
